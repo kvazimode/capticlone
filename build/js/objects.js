@@ -2,7 +2,7 @@ const objects = [
   {
     type: `BgImg`,
     start: 0,
-    end: 8000,
+    end: 10000,
     link: `./001.png`,
     weight: 1
   },
@@ -18,7 +18,7 @@ const objects = [
   },
   {
     type: `BgImg`,
-    start: 8000,
+    start: 10000,
     end: 15000,
     link: `./002.png`,
     weight: 1

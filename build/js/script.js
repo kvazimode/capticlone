@@ -1,7 +1,12 @@
 let canvas = document.querySelector(`#canvas`)
 let p = document.querySelector(`.counter`)
 let ctx = canvas.getContext(`2d`)
+let documentStamp = 0
 let lastStamp = 0
+let startTime = 0
+let stopTime = 0
+let haltTime = 0
+let playTime = 0
 import objects from './objects.js'
 import TextBox from './text-box.js'
 import BgImg from './bg-img.js'
@@ -9,7 +14,6 @@ import Highlight from './highlight.js'
 import preload from './preload-img.js'
 
 let imgSrc = preload(objects)
-console.log(imgSrc)
 let images = new Array()
 for (let i=0; i<imgSrc.length; i++) {
     images[i] = new Image()
@@ -20,7 +24,8 @@ for (let i=0; i<imgSrc.length; i++) {
 }
 
 let makeObject = (item, stamp) => {
-    let fTime = stamp - lastStamp
+    let fTime = documentStamp - lastStamp
+    // console.log(lastStamp, documentStamp, fTime)
     let obj = {}
     switch(item.type) {
         case `TextBox`:
@@ -67,15 +72,59 @@ let composer = (stamp) => {
     return stack
 }
 
-let draw = (stamp) => {
+let draw = (playTime) => {
     ctx.clearRect(0, 0, 1280, 720)
-    let stack = composer(stamp)
+    let stack = composer(playTime)
     stack.forEach(el => {
         el.draw(ctx)
     })
-    lastStamp = stamp
-    requestAnimationFrame(draw)
-    p.textContent = `${stamp}`
+    p.textContent = `docStamp: ${documentStamp}, playtime: ${playTime}, startTime: ${startTime}, stopTime: ${stopTime}, haltTime: ${haltTime}`
 }
 
-requestAnimationFrame(draw)
+let isPaused = false
+let reqID
+const buttonPause = document.querySelector('.pause')
+const buttonRestart = document.querySelector('.restart')
+
+function loop(stamp) {
+    reqID = undefined
+    documentStamp = stamp
+    playTime = documentStamp - haltTime
+    draw(playTime)
+    start()
+    lastStamp = stamp
+}
+
+function start() {
+    if (!reqID) {
+        reqID = requestAnimationFrame(loop)
+    }
+}
+function stop() {
+    if (reqID) {
+        cancelAnimationFrame(reqID)
+        reqID = undefined
+    }
+}
+
+function pauseHandler() {
+    if (isPaused) {
+        stopTime = performance.now()
+        stop()
+    } else {
+        startTime = performance.now()
+        haltTime += startTime - stopTime
+        start()
+    }
+    isPaused = !isPaused
+}
+
+function restartHandler() {
+    playTime = 0
+    haltTime = performance.now()
+    start()
+}
+
+buttonPause.addEventListener('click', pauseHandler)
+buttonRestart.addEventListener('click', restartHandler)
+
