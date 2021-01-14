@@ -1,12 +1,12 @@
 let canvas = document.querySelector(`#canvas`)
 let p = document.querySelector(`.counter`)
 let ctx = canvas.getContext(`2d`)
-let documentStamp,
-    lastStamp,
-    startTime,
-    stopTime,
-    haltTime,
-    playTime = 0
+let documentStamp = 0
+let lastStamp = 0
+let startTime = 0
+let stopTime = 0
+let haltTime = 0
+let playTime = 0
 import objects from './objects.js'
 import TextBox from './text-box.js'
 import BgImg from './bg-img.js'
@@ -77,10 +77,10 @@ let draw = (playTime) => {
     stack.forEach(el => {
         el.draw(ctx)
     })
-    p.textContent = `docStamp: ${documentStamp}, playtime: ${playTime}, startTime: ${startTime}, stopTime: ${stopTime}, haltTime: ${haltTime}`
+    p.textContent = `docStamp: ${documentStamp}, playtime: ${playTime}, haltTime: ${haltTime}`
 }
 
-let isPaused = false
+let isPaused = true
 let reqID
 const buttonPause = document.querySelector('.pause')
 const buttonRestart = document.querySelector('.restart')
@@ -107,7 +107,7 @@ function stop() {
 }
 
 function pauseHandler() {
-    if (isPaused) {
+    if (!isPaused) {
         stopTime = performance.now()
         stop()
     } else {
@@ -121,7 +121,13 @@ function pauseHandler() {
 function restartHandler() {
     playTime = 0
     haltTime = performance.now()
-    start()
+    if (isPaused) {
+        isPaused = !isPaused
+        start()
+    } else {
+        isPaused = !isPaused
+        stop()
+    }
 }
 
 buttonPause.addEventListener('click', pauseHandler)

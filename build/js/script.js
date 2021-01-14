@@ -25,7 +25,6 @@ for (let i=0; i<imgSrc.length; i++) {
 
 let makeObject = (item, stamp) => {
     let fTime = documentStamp - lastStamp
-    // console.log(lastStamp, documentStamp, fTime)
     let obj = {}
     switch(item.type) {
         case `TextBox`:
@@ -78,10 +77,10 @@ let draw = (playTime) => {
     stack.forEach(el => {
         el.draw(ctx)
     })
-    p.textContent = `docStamp: ${documentStamp}, playtime: ${playTime}, startTime: ${startTime}, stopTime: ${stopTime}, haltTime: ${haltTime}`
+    p.textContent = `docStamp: ${documentStamp}, playtime: ${playTime}, haltTime: ${haltTime}`
 }
 
-let isPaused = false
+let isPaused = true
 let reqID
 const buttonPause = document.querySelector('.pause')
 const buttonRestart = document.querySelector('.restart')
@@ -108,7 +107,7 @@ function stop() {
 }
 
 function pauseHandler() {
-    if (isPaused) {
+    if (!isPaused) {
         stopTime = performance.now()
         stop()
     } else {
@@ -122,7 +121,13 @@ function pauseHandler() {
 function restartHandler() {
     playTime = 0
     haltTime = performance.now()
-    start()
+    if (isPaused) {
+        isPaused = !isPaused
+        start()
+    } else {
+        isPaused = !isPaused
+        stop()
+    }
 }
 
 buttonPause.addEventListener('click', pauseHandler)
