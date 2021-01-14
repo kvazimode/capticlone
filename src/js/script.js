@@ -1,17 +1,13 @@
 let canvas = document.querySelector(`#canvas`)
 let p = document.querySelector(`.counter`)
 let ctx = canvas.getContext(`2d`)
-let documentStamp = 0
-let lastStamp = 0
-let startTime = 0
-let stopTime = 0
-let haltTime = 0
-let playTime = 0
+
 import objects from './objects.js'
 import TextBox from './text-box.js'
 import BgImg from './bg-img.js'
 import Highlight from './highlight.js'
 import preload from './preload-img.js'
+import addControls from './controls.js'
 
 let imgSrc = preload(objects)
 let images = new Array()
@@ -23,8 +19,7 @@ for (let i=0; i<imgSrc.length; i++) {
 
 }
 
-let makeObject = (item, stamp) => {
-    let fTime = documentStamp - lastStamp
+let makeObject = (item, stamp, fTime) => {
     let obj = {}
     switch(item.type) {
         case `TextBox`:
@@ -60,75 +55,24 @@ let makeObject = (item, stamp) => {
     return obj
 }
 
-let composer = (stamp) => {
+let composer = (stamp, fTime) => {
     let stack = []
     objects.forEach(item => {
         if (item.start <= stamp && item.end > stamp) {
-            stack.push(makeObject(item, stamp))
+            stack.push(makeObject(item, stamp, fTime))
         }
     })
     stack.sort((a, b) => a.weight - b.weight)
     return stack
 }
 
-let draw = (playTime) => {
+function draw(playTime, fTime) {
     ctx.clearRect(0, 0, 1280, 720)
-    let stack = composer(playTime)
+    let stack = composer(playTime, fTime)
     stack.forEach(el => {
         el.draw(ctx)
     })
-    p.textContent = `docStamp: ${documentStamp}, playtime: ${playTime}, haltTime: ${haltTime}`
+    p.textContent = `fTime: ${fTime}, playtime: ${playTime}`
 }
 
-let isPaused = true
-let reqID
-const buttonPause = document.querySelector('.pause')
-const buttonRestart = document.querySelector('.restart')
-
-function loop(stamp) {
-    reqID = undefined
-    documentStamp = stamp
-    playTime = documentStamp - haltTime
-    draw(playTime)
-    start()
-    lastStamp = stamp
-}
-
-function start() {
-    if (!reqID) {
-        reqID = requestAnimationFrame(loop)
-    }
-}
-function stop() {
-    if (reqID) {
-        cancelAnimationFrame(reqID)
-        reqID = undefined
-    }
-}
-
-function pauseHandler() {
-    if (!isPaused) {
-        stopTime = performance.now()
-        stop()
-    } else {
-        startTime = performance.now()
-        haltTime += startTime - stopTime
-        start()
-    }
-    isPaused = !isPaused
-}
-
-function restartHandler() {
-    playTime = 0
-    if (isPaused) {
-        haltTime = performance.now()
-        isPaused = !isPaused
-        start()
-    } else {
-        start()
-    }
-}
-
-buttonPause.addEventListener('click', pauseHandler)
-buttonRestart.addEventListener('click', restartHandler)
-
+addControls(draw)
