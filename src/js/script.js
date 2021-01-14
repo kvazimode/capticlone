@@ -120,13 +120,12 @@ function pauseHandler() {
 
 function restartHandler() {
     playTime = 0
-    haltTime = performance.now()
     if (isPaused) {
+        haltTime = performance.now()
         isPaused = !isPaused
         start()
     } else {
-        isPaused = !isPaused
-        stop()
+        start()
     }
 }
 
