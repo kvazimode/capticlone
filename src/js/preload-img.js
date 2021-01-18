@@ -1,15 +1,12 @@
+let loaded = new Array()
 let preload = (arr) => {
-  let images = []
-  arr.forEach(el => {
-    if (el.type === `BgImg`) {
-      images.push({
-        link: el.link,
-        start: el.start,
-        end: el.end
-      })
-    }
-  })
-  return images
+  for (let i=0; i < arr.length; i++) {
+    loaded[i] = new Image()
+    loaded[i].src = arr[i].link
+    loaded[i].start = arr[i].start
+    loaded[i].end = arr[i].end
+  }
+  return loaded
 }
 
 export default preload

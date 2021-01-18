@@ -1,11 +1,4 @@
-const objects = [
-  {
-    type: `BgImg`,
-    start: 0,
-    end: 10000,
-    link: `./001.png`,
-    weight: 1
-  },
+export default [
   {
     type: `TextBox`,
     start: 2000,
@@ -15,13 +8,6 @@ const objects = [
     txtFill: `white`,
     text: `Some Text`,
     weight: 3
-  },
-  {
-    type: `BgImg`,
-    start: 10000,
-    end: 15000,
-    link: `./002.png`,
-    weight: 1
   },
   {
     type: `Highlight`,
@@ -39,5 +25,3 @@ const objects = [
     }
   }
 ]
-
-export default objects

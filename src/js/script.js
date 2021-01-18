@@ -1,38 +1,22 @@
-let canvas = document.querySelector(`#canvas`)
-let p = document.querySelector(`.counter`)
-let ctx = canvas.getContext(`2d`)
-
-import objects from './objects.js'
+import elements from './data/elements.js'
+import backgrounds from './data/backgrounds.js'
 import TextBox from './text-box.js'
 import BgImg from './bg-img.js'
 import Highlight from './highlight.js'
 import preload from './preload-img.js'
 import addControls from './controls.js'
+let canvas = document.querySelector(`#canvas`)
+let p = document.querySelector(`.counter`)
+let ctx = canvas.getContext(`2d`)
 
-let imgSrc = preload(objects)
-let images = new Array()
-for (let i=0; i<imgSrc.length; i++) {
-    images[i] = new Image()
-    images[i].src = imgSrc[i].link
-    images[i].start = imgSrc[i].start
-    images[i].end = imgSrc[i].end
-
-}
+// preload bgImages
+let bgImages = preload(backgrounds)
 
 let makeObject = (item, stamp, fTime) => {
     let obj = {}
     switch(item.type) {
         case `TextBox`:
             obj = new TextBox(item);
-            break;
-        case `BgImg`:
-            images.forEach(el => {
-                if (stamp >= el.start && stamp <= el.end) {
-                    obj = new BgImg(item, el);
-                    return
-                }
-            })
-            
             break;
         case `Highlight`:
             obj = new Highlight(item);
@@ -57,9 +41,14 @@ let makeObject = (item, stamp, fTime) => {
 
 let composer = (stamp, fTime) => {
     let stack = []
-    objects.forEach(item => {
+    elements.forEach(item => {
         if (item.start <= stamp && item.end > stamp) {
             stack.push(makeObject(item, stamp, fTime))
+        }
+    })
+    bgImages.forEach(el => {
+        if (el.start <= stamp && el.end > stamp) {
+            stack.push(new BgImg(el))
         }
     })
     stack.sort((a, b) => a.weight - b.weight)
