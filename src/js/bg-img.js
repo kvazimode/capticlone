@@ -1,7 +1,7 @@
 class BgImg {
-  constructor(params, img) {
+  constructor(img) {
     this.img = img
-    this.weight = params.weight
+    this.weight = 1
   }
 
   draw(ctx) {
