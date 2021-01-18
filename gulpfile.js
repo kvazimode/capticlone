@@ -41,7 +41,7 @@ gulp.task('server', function () {
 gulp.task('copy', function() {
   return gulp.src([
     'src/js/**',
-    'src/**.png'
+    'src/img/**.png'
   ], {
     base: 'src'
   })
