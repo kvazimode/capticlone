@@ -1,7 +1,10 @@
 export default {
-    image: './img/pointer.png',
+    src: './img/pointer.png',
     startCoord: [640, 360],
-    showTime: [5000, 15000],
+    showTime: {
+        start: 5000,
+        end: 15000
+    },
     points: [
         {
             start: 8000,
@@ -13,5 +16,6 @@ export default {
             coord: [600, 800],
             duration: 1000
         }
-    ]
+    ],
+    weight: 99
 }
