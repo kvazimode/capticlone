@@ -5,6 +5,7 @@ import BgImg from './classes/bg-img.js'
 import Highlight from './classes/highlight.js'
 import preload from './preload-img.js'
 import addControls from './controls.js'
+import makePointer from './make-pointer.js'
 let canvas = document.querySelector(`#canvas`)
 let p = document.querySelector(`.counter`)
 let ctx = canvas.getContext(`2d`)
@@ -51,6 +52,7 @@ let composer = (stamp, fTime) => {
             stack.push(new BgImg(el))
         }
     })
+    stack.push(makePointer())
     stack.sort((a, b) => a.weight - b.weight)
     return stack
 }
