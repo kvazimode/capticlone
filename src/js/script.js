@@ -52,7 +52,7 @@ let composer = (stamp, fTime) => {
             stack.push(new BgImg(el))
         }
     })
-    stack.push(makePointer())
+    stack.push(makePointer(stamp, fTime))
     stack.sort((a, b) => a.weight - b.weight)
     return stack
 }
