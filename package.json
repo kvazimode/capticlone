@@ -3,18 +3,12 @@
   "version": "0.0.1",
   "description": "captivate clone attempt",
   "devDependencies": {
-    "autoprefixer": "9.5.x",
-    "browser-sync": "2.26.x",
-    "del": "^4.1.1",
-    "gulp": "4.0.x",
-    "gulp-plumber": "1.2.x",
-    "gulp-rename": "^1.4.0",
-    "gulp-posthtml": "^3.0.4",
-    "gulp-sourcemaps": "2.6.x",
-    "posthtml-include": "^1.2.0"
+    "webpack": "4.42.1",
+    "webpack-cli": "3.3.11",
+    "webpack-dev-server": "3.10.3"
   },
   "scripts": {
-    "build": "gulp build",
-    "start": "gulp start"
+    "build": "webpack",
+    "start": "webpack-dev-server --open"
   }
 }
