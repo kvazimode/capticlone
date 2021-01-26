@@ -1,6 +1,7 @@
 import elements from './data/elements.js'
 import backgrounds from './data/backgrounds.js'
 import TextBox from './classes/text-box.js'
+import SimpleText from './classes/simple-text.js'
 import BgImg from './classes/bg-img.js'
 import Highlight from './classes/highlight.js'
 import preload from './preload-img.js'
@@ -18,6 +19,9 @@ let makeObject = (item, stamp, fTime) => {
     switch(item.type) {
         case `TextBox`:
             obj = new TextBox(item);
+            break;
+        case `SimpleText`:
+            obj = new SimpleText(item);
             break;
         case `Highlight`:
             obj = new Highlight(item);
