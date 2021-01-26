@@ -15,6 +15,5 @@ class SimpleText {
     }
   
   }
-  
-  export default SimpleText
-  
+
+export default SimpleText
