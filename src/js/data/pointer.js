@@ -7,7 +7,7 @@ export default {
     },
     points: [
         {
-            start: 8000,
+            start: 10000,
             coord: [250, 250],
             duration: 1000
         },

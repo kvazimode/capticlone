@@ -1,11 +1,11 @@
 export default [
     {
-        start: 0,
-        end: 10000,
+        start: 5000,
+        end: 11000,
         link: `./img/001.png`
     },
     {
-        start: 10000,
+        start: 11000,
         end: 15000,
         link: `./img/002.png`
     }
