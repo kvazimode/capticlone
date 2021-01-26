@@ -1,4 +1,5 @@
 const path = require(`path`);
+const CopyPlugin = require("copy-webpack-plugin");
 
 module.exports = {
   mode: `development`,
@@ -11,5 +12,12 @@ module.exports = {
   devServer: {
     contentBase: path.join(__dirname, `build`),
     watchContentBase: true
-  }
+  },
+  plugins: [
+      new CopyPlugin({
+          patterns: [
+            {from:`src/img`,to:`img`}
+          ]
+      })
+  ]
 };

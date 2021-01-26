@@ -3,6 +3,7 @@
   "version": "0.0.1",
   "description": "captivate clone attempt",
   "devDependencies": {
+    "copy-webpack-plugin": "^6.2.1",
     "webpack": "4.42.1",
     "webpack-cli": "3.3.11",
     "webpack-dev-server": "3.10.3"
