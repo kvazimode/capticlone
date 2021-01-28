@@ -12,8 +12,9 @@ const RESOLUTION = {
     y: 720
 }
 let canvas = document.querySelector(`#canvas`)
-let p = document.querySelector(`.counter`)
 let ctx = canvas.getContext(`2d`)
+canvas.width = RESOLUTION.x
+canvas.height = RESOLUTION.y
 
 // preload bgImages
 let bgImages = preload(backgrounds)
@@ -71,7 +72,6 @@ function draw(playTime, fTime) {
     stack.forEach(el => {
         el.draw(ctx)
     })
-    // p.textContent = `fTime: ${fTime}, playtime: ${playTime}`
 }
 
 addControls(draw)
