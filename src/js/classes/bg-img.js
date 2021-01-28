@@ -1,11 +1,13 @@
 class BgImg {
-  constructor(img) {
+  constructor(img, resolution) {
     this.img = img
+    this.resX = resolution.x
+    this.resY = resolution.y
     this.weight = 1
   }
 
   draw(ctx) {
-    ctx.drawImage(this.img, 0, 0, 1280, 720)
+    ctx.drawImage(this.img, 0, 0, this.resX, this.resY)
   }
 }
 
