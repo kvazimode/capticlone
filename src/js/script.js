@@ -7,6 +7,10 @@ import Highlight from './classes/highlight.js'
 import preload from './preload-img.js'
 import addControls from './controls.js'
 import makePointer from './make-pointer.js'
+const RESOLUTION = {
+    x: 1280,
+    y: 720
+}
 let canvas = document.querySelector(`#canvas`)
 let p = document.querySelector(`.counter`)
 let ctx = canvas.getContext(`2d`)
@@ -24,7 +28,7 @@ let makeObject = (item, stamp, fTime) => {
             obj = new SimpleText(item);
             break;
         case `Highlight`:
-            obj = new Highlight(item);
+            obj = new Highlight(item, RESOLUTION);
             if (item.hasOwnProperty(`mod`)){
                 let aniEnd = item.start + item.mod.duration
                 let endAniStart = item.end - item.mod.duration
@@ -53,7 +57,7 @@ let composer = (stamp, fTime) => {
     })
     bgImages.forEach(el => {
         if (el.start <= stamp && el.end > stamp) {
-            stack.push(new BgImg(el))
+            stack.push(new BgImg(el, RESOLUTION))
         }
     })
     stack.push(makePointer(stamp, fTime))
@@ -62,12 +66,12 @@ let composer = (stamp, fTime) => {
 }
 
 function draw(playTime, fTime) {
-    ctx.clearRect(0, 0, 1280, 720)
+    ctx.clearRect(0, 0, RESOLUTION.x, RESOLUTION.y)
     let stack = composer(playTime, fTime)
     stack.forEach(el => {
         el.draw(ctx)
     })
-    p.textContent = `fTime: ${fTime}, playtime: ${playTime}`
+    // p.textContent = `fTime: ${fTime}, playtime: ${playTime}`
 }
 
 addControls(draw)
